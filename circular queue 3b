@@ -1,0 +1,75 @@
+#include <stdio.h>
+#define N 5
+
+int queue[N];
+int front = -1;
+int rear = -1;
+
+void enqueue(int x) {
+    if ((front == 0 && rear == N - 1) || (rear + 1) % N == front) {
+        printf("Queue is full\n");
+    } else if (front == -1 && rear == -1) {
+        front = rear = 0;
+        queue[rear] = x;
+    } else {
+        rear = (rear + 1) % N;
+        queue[rear] = x;
+    }
+}
+
+void dequeue() {
+    if (front == -1 && rear == -1) {
+        printf("Queue is empty\n");
+    } else if (front == rear) {
+        printf("Deleted element = %d\n", queue[front]);
+        front = rear = -1;
+    } else {
+        printf("Deleted element = %d\n", queue[front]);
+        front = (front + 1) % N;
+    }
+}
+
+void display() {
+    if (front == -1 && rear == -1) {
+        printf("Queue is empty\n");
+    } else {
+        int i = front;
+        printf("Queue elements: ");
+        do {
+            printf("%d ", queue[i]);
+            i = (i + 1) % N;
+        } while (i != (rear + 1) % N);
+        printf("\n");
+    }
+}
+
+int main() {
+    int x = 0;  // initialize properly
+    
+    while (x != 4) {
+        printf("\n1 for insertion, 2 for deletion, 3 for display, 4 for stop: ");
+        scanf("%d", &x);
+        switch (x) {
+            case 1:
+                {
+                    int y;
+                    printf("Enter the element: ");
+                    scanf("%d", &y);
+                    enqueue(y);
+                    break;
+                }
+            case 2:
+                dequeue();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("Exit");
+                break;
+            default:
+                printf("wrong choice\n");
+        }
+    }
+    return 0;
+}
